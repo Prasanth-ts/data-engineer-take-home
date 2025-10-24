@@ -41,7 +41,7 @@ This document details the architectural choices for the AI-Driven Marketing Plat
 
 # AI-Driven Marketing Platform: Architecture
 
-This document contains the system architecture diagram (Phase 1) and the design justifications (Phase 3) for the take-home assignment.
+This document contains the system architecture diagram (Phase 1) for the take-home assignment.
 
 ## Architecture Diagram
 
