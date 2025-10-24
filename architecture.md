@@ -4,7 +4,7 @@ This document details the architectural choices for the AI-Driven Marketing Plat
 
 ## 1. Guiding Principles
 
-* [cite_start]**Right Tool for the Job:** The platform processes structured, unstructured, vector, and graph data[cite: 7]. No single database excels at all four. This design uses a specialized database for each task to ensure high performance and scalability.
+* **Right Tool for the Job:** The platform processes structured, unstructured, vector, and graph data. No single database excels at all four. This design uses a specialized database for each task to ensure high performance and scalability.
 * **Separation of Concerns:** The system is split into two distinct flows:
     1.  **Batch Pipeline:** A reliable, observable Prefect flow handles the heavy, asynchronous work of embedding generation and data transformation.
     2.  **Serving API:** A lightweight FastAPI server handles low-latency, real-time user requests.
@@ -12,30 +12,30 @@ This document details the architectural choices for the AI-Driven Marketing Plat
 ## 2. Component Justification
 
 * **MongoDB (Document Store):**
-    * [cite_start]**Role:** Serves as the primary "data lake" for raw conversation data[cite: 41].
+    * **Role:** Serves as the primary "data lake" for raw conversation data.
     * **Why:** Its schemaless, document-native (JSON) structure is perfect for storing unstructured chat data. It's flexible and easy to query for individual user histories.
 
 * **Milvus (Vector Database):**
-    * [cite_start]**Role:** Stores vector embeddings for Approximate Nearest Neighbor (ANN) search[cite: 22, 43].
-    * **Why:** This is the core of the AI matching. [cite_start]Milvus is designed to find the "top 5 most similar users" from millions of vectors at extremely low latency, a task traditional databases cannot perform[cite: 51].
+    * **Role:** Stores vector embeddings for Approximate Nearest Neighbor (ANN) search.
+    * **Why:** This is the core of the AI matching. Milvus is designed to find the "top 5 most similar users" from millions of vectors at extremely low latency, a task traditional databases cannot perform.
 
 * **Neo4j (Graph Database):**
-    * [cite_start]**Role:** Stores the complex relationships between users, campaigns, and intents[cite: 24, 44].
-    * **Why:** A graph is the most natural and efficient way to model this. [cite_start]It allows the API to instantly answer the key business question: "Which campaigns are connected to this group of similar users?"[cite: 52].
+    * **Role:** Stores the complex relationships between users, campaigns, and intents.
+    * **Why:** A graph is the most natural and efficient way to model this. It allows the API to instantly answer the key business question: "Which campaigns are connected to this group of similar users?".
 
 * **SQLite (Analytics Layer Mock):**
-    * [cite_start]**Role:** Stores pre-aggregated metrics, such as engagement frequency[cite: 26, 45].
-    * **Why:** This is a mock for a production OLAP system like BigQuery or Snowflake. We *pre-calculate* the ranking scores in the batch pipeline. [cite_start]This prevents the real-time API from running slow `COUNT(*)` or `GROUP BY` queries, allowing it to simply fetch a pre-computed score for fast ranking[cite: 53].
+    * **Role:** Stores pre-aggregated metrics, such as engagement frequency
+    * **Why:** This is a mock for a production OLAP system like BigQuery or Snowflake. We *pre-calculate* the ranking scores in the batch pipeline. This prevents the real-time API from running slow `COUNT(*)` or `GROUP BY` queries, allowing it to simply fetch a pre-computed score for fast ranking.
 
 * **Redis (Cache):**
-    * [cite_start]**Role:** Caches the final recommendation JSON for a user[cite: 28].
+    * **Role:** Caches the final recommendation JSON for a user.
     * **Why:** This is our primary latency optimization. If two requests for the same user arrive within 5 minutes, the second request is served in single-digit milliseconds from Redis, completely bypassing the expensive hybrid retrieval (Milvus + Neo4j + SQLite).
 
 ## 3. Data Flow & Orchestration
 
-* [cite_start]**Orchestration (Prefect):** Prefect was chosen for its Python-native approach[cite: 73]. It manages the pipeline's DAG (Directed Acyclic Graph), ensuring that data is extracted, transformed (embedded), and then loaded into all databases in the correct order. [cite_start]It also provides logging and observability for pipeline status and failures.
+* **Orchestration (Prefect):** Prefect was chosen for its Python-native approach. It manages the pipeline's DAG (Directed Acyclic Graph), ensuring that data is extracted, transformed (embedded), and then loaded into all databases in the correct order. It also provides logging and observability for pipeline status and failures.
 * **Data Lineage & Validation:**
-    * [cite_start]**Validation:** Pydantic models (in `src/db/schemas.py`) are used in the pipeline to validate all incoming data before it's processed, ensuring data quality[cite: 46].
+    * **Validation:** Pydantic models (in `src/db/schemas.py`) are used in the pipeline to validate all incoming data before it's processed, ensuring data quality.
     * **Lineage:** Basic lineage is tracked via Prefect's logs, which show the flow of data from the source file to the target databases.
 
 

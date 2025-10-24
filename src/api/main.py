@@ -70,7 +70,7 @@ def get_user_query_vector(user_id: str):
 
 
 def search_similar_users(query_vector: list[float], k: int = 5) -> list[str]:
-    """Finds top-k similar messages and returns their user_ids[cite: 51]."""
+    """Finds top-k similar messages and returns their user_ids."""
     milvus = app_state["milvus"]
     search_params = {"metric_type": "L2", "params": {"nprobe": 10}}
     
@@ -88,7 +88,7 @@ def search_similar_users(query_vector: list[float], k: int = 5) -> list[str]:
 
 
 def fetch_campaigns_for_users(user_ids: list[str]) -> list[str]:
-    """Finds campaigns connected to a list of users in Neo4j[cite: 52]."""
+    """Finds campaigns connected to a list of users in Neo4j."""
     neo_driver = app_state["neo4j"]
     with neo_driver.session() as session:
         result = session.run("""
@@ -100,7 +100,7 @@ def fetch_campaigns_for_users(user_ids: list[str]) -> list[str]:
 
 
 def rank_campaigns_by_engagement(campaign_ids: list[str]) -> list[dict]:
-    """Ranks campaigns by total engagement score from SQLite[cite: 53]."""
+    """Ranks campaigns by total engagement score from SQLite."""
     # We must create a new connection here as SQLite conns can't be shared across threads
     conn = get_sqlite_conn()
     cursor = conn.cursor()
@@ -126,13 +126,12 @@ def rank_campaigns_by_engagement(campaign_ids: list[str]) -> list[dict]:
 async def get_recommendations(user_id: str):
     """
     Generates personalized campaign recommendations for a user
-    using a hybrid retrieval approach[cite: 49].
+    using a hybrid retrieval approach.
     """
     redis = app_state["redis"]
     cache_key = f"rec:{user_id}"
 
-    # 1. Check Cache [cite: 28]
-    try:
+    # 1. Check Cache     try:
         cached_result = redis.get(cache_key)
         if cached_result:
             logger.info(f"Cache HIT for user {user_id}")

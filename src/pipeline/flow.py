@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 @task
 def extract_raw_data() -> list[dict]:
-    """Reads raw data from the sample JSON file[cite: 38]."""
+    """Reads raw data from the sample JSON file."""
     logger.info("Extracting raw data from data/sample_conversations.json...")
     
     # This path works because the Dockerfile copies the 'data' folder
@@ -42,8 +42,8 @@ def extract_raw_data() -> list[dict]:
 @task
 def transform_and_validate(data: list[dict]) -> list[Conversation]:
     """
-    Validates data with Pydantic and generates embeddings[cite: 39, 46].
-    Also detects and logs anomalies (e.g., empty embeddings)[cite: 57].
+    Validates data with Pydantic and generates embeddings.
+    Also detects and logs anomalies (e.g., empty embeddings).
     """
     logger.info(f"Transforming {len(data)} records...")
     model = SentenceTransformer(config.EMBEDDING_MODEL)
@@ -54,8 +54,7 @@ def transform_and_validate(data: list[dict]) -> list[Conversation]:
             # 1. Validate
             convo = Conversation(**item)
             
-            # 2. Generate Embedding [cite: 20]
-            embedding = model.encode(convo.message, convert_to_numpy=True)
+            # 2. Generate Embedding             embedding = model.encode(convo.message, convert_to_numpy=True)
             
             # Anomaly check
             if embedding is None or embedding.size == 0:
@@ -91,18 +90,18 @@ def load_to_dbs(data: list[Conversation]):
         [d.embedding for d in data]
     ]
 
-    # --- 1. Load to MongoDB (Document Store) [cite: 41] ---
+    # --- 1. Load to MongoDB (Document Store)---
     mongo.conversations.delete_many({}) # Clear old data
     mongo.conversations.insert_many(mongo_data)
     logger.info(f"Loaded {len(mongo_data)} records to MongoDB.")
     
-    # --- 2. Load to Milvus (Vector DB) [cite: 43] ---
+    # --- 2. Load to Milvus (Vector DB)---
     # We clear old data by dropping/re-creating the collection in db.py
     milvus.insert(milvus_data)
     milvus.flush() # Ensure data is indexed
     logger.info(f"Loaded {len(milvus_data[0])} vectors to Milvus.")
     
-    # --- 3. Load to Neo4j (Graph DB) [cite: 44] ---
+    # --- 3. Load to Neo4j (Graph DB)---
     with neo_driver.session() as session:
         session.run("MATCH (n) DETACH DELETE n") # Clear old data
         for d in data:
@@ -121,7 +120,7 @@ def load_to_dbs(data: list[Conversation]):
             )
     logger.info(f"Loaded {len(data)} relationships to Neo4j.")
 
-    # --- 4. Load to SQLite (Analytics DB) [cite: 45] ---
+    # --- 4. Load to SQLite (Analytics DB)---
     df = pd.DataFrame([d.model_dump() for d in data])
     analytics_df = df.groupby(['user_id', 'campaign_id']).size().reset_index(name='engagement_count')
     
@@ -135,7 +134,7 @@ def load_to_dbs(data: list[Conversation]):
 
 @flow(name="Main ETL and Embedding Flow")
 def main_data_pipeline():
-    """The main orchestrated workflow[cite: 37]."""
+    """The main orchestrated workflow."""
     logger.info("Pipeline starting...")
     start_time = pd.Timestamp.now()
     
