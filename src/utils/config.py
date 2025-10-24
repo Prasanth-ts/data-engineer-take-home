@@ -20,11 +20,11 @@ NEO4J_PASS = "password" # From your docker-compose.yml
 
 # --- Milvus ---
 MILVUS_COLLECTION_NAME = "conversations"
-EMBEDDING_DIM = 384 # Using 'all-MiniLM-L6-v2' for a balance of speed/size
+EMBEDDING_DIM = 1024 # Using 'all-MiniLM-L6-v2' for a balance of speed/size
 # Note: Prompt said 1024, if you use a 1024-dim model, change this!
 
 # --- ML Model ---
-EMBEDDING_MODEL = 'sentence-transformers/all-MiniLM-L6-v2'
+EMBEDDING_MODEL = 'sentence-transformers/all-roberta-large-v1'
 
 # --- API Cache ---
 RECOMMENDATION_CACHE_TTL_SECONDS = 300 # 5 minutes
