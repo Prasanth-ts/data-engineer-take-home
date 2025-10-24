@@ -1,0 +1,14 @@
+[
+  {"message_id": "m_001", "user_id": "u_001", "campaign_id": "c_101", "timestamp": "2025-10-24T10:00:00Z", "intent": "purchase", "message": "I'd like to buy the new headphones."},
+  {"message_id": "m_002", "user_id": "u_002", "campaign_id": "c_101", "timestamp": "2025-10-24T10:01:00Z", "intent": "support", "message": "My order hasn't arrived yet."},
+  {"message_id": "m_003", "user_id": "u_001", "campaign_id": "c_101", "timestamp": "2025-10-24T10:02:00Z", "intent": "purchase", "message": "Are the black ones in stock?"},
+  {"message_id": "m_004", "user_id": "u_003", "campaign_id": "c_102", "timestamp": "2025-10-24T10:03:00Z", "intent": "purchase", "message": "What's your best offer on the new laptop?"},
+  {"message_id": "m_005", "user_id": "u_004", "campaign_id": "c_102", "timestamp": "2025-10-24T10:04:00Z", "intent": "purchase", "message": "I am looking for a powerful computer for video editing."},
+  {"message_id": "m_006", "user_id": "u_003", "campaign_id": "c_102", "timestamp": "2025-10-24T10:05:00Z", "intent": "purchase", "message": "Does it come with a warranty?"},
+  {"message_id": "m_007", "user_id": "u_005", "campaign_id": "c_103", "timestamp": "2025-10-24T10:06:00Z", "intent": "interest", "message": "Tell me more about your travel packages."},
+  {"message_id": "m_008", "user_id": "u_006", "campaign_id": "c_103", "timestamp": "2025-10-24T11:00:00Z", "intent": "interest", "message": "What are the best deals for a trip to Japan?"},
+  {"message_id": "m_009", "user_id": "u_007", "campaign_id": "c_101", "timestamp": "2025-10-24T11:05:00Z", "intent": "support", "message": "My headphones are broken, I need a replacement."},
+  {"message_id": "m_010", "user_id": "u_008", "campaign_id": "c_104", "timestamp": "2025-10-24T11:10:00Z", "intent": "purchase", "message": "I want to buy a new camera."},
+  {"message_id": "m_011", "user_id": "u_009", "campaign_id": "c_104", "timestamp": "2025-10-24T11:15:00Z", "intent": "interest", "message": "What is the difference between a mirrorless and a DSLR camera?"},
+  {"message_id": "m_012", "user_id": "u_008", "campaign_id": "c_104", "timestamp": "2025-10-24T11:20:00Z", "intent": "purchase", "message": "Please add the 50mm lens to my cart as well."}
+]

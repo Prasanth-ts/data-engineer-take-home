@@ -1,0 +1,15 @@
+# API
+fastapi
+uvicorn[standard]
+
+# Pipeline
+prefect
+sentence-transformers
+numpy
+
+# Common DB Connectors
+pymongo
+redis
+neo4j
+pymilvus
+sqlalchemy
