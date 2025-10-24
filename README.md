@@ -2,9 +2,7 @@ Here is the complete `README.md` file.
 
 This version is updated to reflect our final change: using the **1024-dim** embedding model (`all-roberta-large-v1`) to match the assignment's PDF.
 
------
 
-````md
 # Founding Data Engineer: AI-Driven Marketing Platform
 
 This repository is my submission for the Founding Data Engineer take-home assignment. It implements a modular, multi-database data platform designed to power an AI-driven marketing personalization system.
@@ -126,7 +124,4 @@ curl http://localhost:8000/recommendations/u_001
   ],
   "retrieval_source": "cache"
 }
-```
-
-```
 ```
